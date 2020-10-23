@@ -9,25 +9,30 @@ class HomeInitial extends HomeState {
   List<Object> get props => [];
 }
 
-class CloudStoreError extends HomeState {
+class DataSavedErrorState extends HomeState {
   final String errorMessage;
 
-  CloudStoreError({@required this.errorMessage});
+  DataSavedErrorState({@required this.errorMessage});
   @override
   List<Object> get props => [errorMessage];
 }
 
-class CloudStoreRemoved extends HomeState {
+class DataRemovedState extends HomeState {
   @override
   List<Object> get props => [];
 }
 
-class CloudStoreSaved extends HomeState {
+class DataSavedState extends HomeState {
   @override
   List<Object> get props => [];
 }
 
-class CloudStoreGetData extends HomeState {
+class DataFetchingState extends HomeState {
+  @override
+  List<Object> get props => [];
+}
+
+class DataRetrievedState extends HomeState {
   @override
   List<Object> get props => [];
 }
