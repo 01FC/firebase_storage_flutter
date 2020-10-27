@@ -44,19 +44,19 @@ class ChosenImageLoaded extends HomeState {
   List<Object> get props => [imgPath];
 }
 
-class ChosenImageFailed extends HomeState {
+class ChosenImageFailedState extends HomeState {
   @override
   List<Object> get props => [];
 }
 
-class FileUploaded extends HomeState {
+class FileUploadedState extends HomeState {
   final dynamic fileUrl;
-  FileUploaded({@required this.fileUrl});
+  FileUploadedState({@required this.fileUrl});
   @override
   List<Object> get props => [fileUrl];
 }
 
-class FileUploadFailed extends HomeState {
+class FileUploadFailedState extends HomeState {
   @override
   List<Object> get props => [];
 }

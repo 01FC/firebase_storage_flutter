@@ -44,9 +44,28 @@ class _HomePageState extends State<HomePage> {
           },
           builder: (context, state) {
             return ListView.builder(
-              itemCount: null ?? 0,
+              itemCount: _homeBloc.getApuntesList != null
+                  ? _homeBloc.getApuntesList.length
+                  : 0,
               itemBuilder: (BuildContext context, int index) {
-                return Container();
+                return ListTile(
+                  title: Text("${_homeBloc.getApuntesList[index].materia}"),
+                  subtitle:
+                      Text("${_homeBloc.getApuntesList[index].descripcion}"),
+                  leading: CircleAvatar(
+                    maxRadius: 30,
+                    child: Image.network(
+                      _homeBloc.getApuntesList[index].imageUrl,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete_forever),
+                    onPressed: () {
+                      _homeBloc.add(RemoveDataEvent(index: index));
+                    },
+                  ),
+                );
               },
             );
           },

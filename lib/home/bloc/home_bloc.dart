@@ -56,7 +56,32 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         );
       }
     } else if (event is UploadFileEvent) {
+      try {
+        String imageUrl = await _uploadPicture(event.file);
+        if (imageUrl != null)
+          yield FileUploadedState(fileUrl: imageUrl);
+        else
+          yield FileUploadFailedState();
+      } catch (e) {
+        yield FileUploadFailedState();
+      }
+    } else if (event is ChooseImageEvent) {
       File chosenImage = await _chooseImage();
+      if (chosenImage == null)
+        yield ChosenImageFailedState();
+      else
+        yield ChosenImageLoaded(imgPath: chosenImage);
+    } else if (event is RemoveDataEvent) {
+      try {
+        await _documentsList[event.index].reference.delete();
+        await _getAllApuntes();
+
+        // _documentsList.removeAt(event.index);
+        // _apuntesList.removeAt(event.index);
+        yield DataRemovedState();
+      } catch (e) {
+        yield DataSavedErrorState(errorMessage: "No se pudo eliminar..");
+      }
     }
   }
 
@@ -106,11 +131,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     // mapear a objeto de dart (Apunte)
     // agregar cada ojeto a una lista
     var apuntes = await FirebaseFirestore.instance.collection("apuntes").get();
+    _documentsList = apuntes.docs;
     _apuntesList = apuntes.docs
         .map(
           (elemento) => Apunte(
             materia: elemento["materia"],
-            descripcion: elemento["descipcion"],
+            descripcion: elemento["descripcion"],
             imageUrl: elemento["imagen"],
           ),
         )
